@@ -7,6 +7,13 @@ import { Button } from "./ButtonsUi/Button";
 import { AuthSocialIcons } from "./AuthSocialIcons";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 
+/*
+ * Auth Component: Responsible for rendering the authentication form and related components.
+ * - Manages the authentication form's variant (LOGIN or REGISTER) and isLoading state.
+ * - Handles form submission, registration, and social sign-in actions.
+ * - Defines the styling for the authentication form and its components.
+ */
+
 type VariantProps = "LOGIN" | "REGISTER";
 
 export const Auth = () => {
@@ -108,11 +115,11 @@ export const Auth = () => {
           </div>
         </div>
 
-        <div className="flex gap-2 justify-center text-sm mt-5 px-2 text-gray-500">
+        <div className="mt-5 flex justify-center gap-2 px-2 text-sm text-gray-500">
           <div>
             {variant === "LOGIN" ? "New to Seener?" : "Already have account?"}
           </div>
-          <div onClick={tooglevariant} className="underline cursor-pointer">
+          <div onClick={tooglevariant} className="cursor-pointer underline">
             {variant === "LOGIN" ? "Create an account" : "Login"}
           </div>
         </div>

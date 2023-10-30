@@ -3,6 +3,12 @@
 import React from "react";
 import { IconType } from "react-icons";
 
+/*
+ * AuthSocialIcons Component: Renders a button with a social media icon.
+ * - Receives an icon and an onClick function as parameters.
+ * - Responsible for rendering the social media icon within a button with specific styles.
+ */
+
 type AuthSocialIconsProps = {
   icon: IconType;
   onClick: () => void;
