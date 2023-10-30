@@ -1,11 +1,15 @@
 "use client";
 
+import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "./InputsUi/Input";
 import { Button } from "./ButtonsUi/Button";
 import { AuthSocialIcons } from "./AuthSocialIcons";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import { AiOutlineLoading } from "react-icons/ai";
+import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 /*
  * Auth Component: Responsible for rendering the authentication form and related components.
@@ -44,18 +48,41 @@ export const Auth = () => {
     setIsLoading(true);
 
     if (variant === "REGISTER") {
-      // axios reg
+      axios
+        .post("api/register", data)
+        .catch(() => toast.error("Something went wrong!"))
+        .finally(() => setIsLoading(false));
     }
 
     if (variant === "LOGIN") {
-      //next auth signin
+      signIn("credentials", { ...data, redirect: false })
+        .then((callback) => {
+          if (callback?.error && !callback?.ok) {
+            toast.error("Invalid credentials");
+          }
+
+          if (!callback?.error && callback?.ok) {
+            toast.success("Logged in!");
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
   };
 
   const socialAction = (action: string) => {
     setIsLoading(true);
 
-    // social signin
+    signIn(action, { redirect: false })
+      .then((callback) => {
+        if (callback?.error && !callback?.ok) {
+          toast.error("Invalid credentials");
+        }
+
+        if (!callback?.error && callback?.ok) {
+          toast.success("Logged in!");
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -87,7 +114,11 @@ export const Auth = () => {
           />
           <div>
             <Button type="submit" disabled={isLoading} fullWidth>
-              {variant === "LOGIN" ? "Sign In" : "Register"}
+              {isLoading ? (
+                <AiOutlineLoading className="animate-spin text-xl" />
+              ) : (
+                <p>{variant === "LOGIN" ? "Sign In" : "Register"}</p>
+              )}
             </Button>
           </div>
         </form>
