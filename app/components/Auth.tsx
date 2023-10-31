@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "./InputsUi/Input";
 import { Button } from "./ButtonsUi/Button";
@@ -9,7 +9,8 @@ import { AuthSocialIcons } from "./AuthSocialIcons";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import { AiOutlineLoading } from "react-icons/ai";
 import toast from "react-hot-toast";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 /*
  * Auth Component: Responsible for rendering the authentication form and related components.
@@ -21,8 +22,16 @@ import { signIn } from "next-auth/react";
 type VariantProps = "LOGIN" | "REGISTER";
 
 export const Auth = () => {
+  const session = useSession();
+  const router = useRouter();
   const [variant, setVariant] = useState<VariantProps>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/users");
+    }
+  }, [session?.status, router]);
 
   const tooglevariant = useCallback(() => {
     if (variant === "LOGIN") {
@@ -50,6 +59,11 @@ export const Auth = () => {
     if (variant === "REGISTER") {
       axios
         .post("api/register", data)
+        .then(() =>
+          signIn("credentials", data).then(() =>
+            toast.success("Register successfully!"),
+          ),
+        )
         .catch(() => toast.error("Something went wrong!"))
         .finally(() => setIsLoading(false));
     }
@@ -62,6 +76,7 @@ export const Auth = () => {
           }
 
           if (!callback?.error && callback?.ok) {
+            router.push("/users");
             toast.success("Logged in!");
           }
         })
