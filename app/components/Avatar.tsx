@@ -5,7 +5,7 @@ import Image from "next/image";
 import React from "react";
 
 type AvaterProps = {
-  user: User;
+  user?: User;
 };
 
 export const Avatar: React.FC<AvaterProps> = ({ user }) => {
