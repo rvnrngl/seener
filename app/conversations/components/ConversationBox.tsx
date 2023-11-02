@@ -54,10 +54,6 @@ export const ConversationBox: React.FC<ConversationBoxProps> = ({
 
   const lastMessageText = useMemo(() => {
     if (lastMessage?.image) {
-      const senderName = lastMessage?.sender?.name;
-      if (senderName) {
-        return `${senderName} sent an image.`;
-      }
       return "Sent an image.";
     }
 
@@ -74,7 +70,7 @@ export const ConversationBox: React.FC<ConversationBoxProps> = ({
       className={clsx(
         `relative flex w-full cursor-pointer items-center space-x-3 rounded-lg 
       bg-white p-3 transition hover:bg-neutral-100`,
-        selected ? "bg-neutral-100" : "bg-while",
+        selected ? "bg-neutral-200/50" : "bg-white",
       )}
     >
       <Avatar user={otherUser} />
