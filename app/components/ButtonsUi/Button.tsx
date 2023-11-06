@@ -11,7 +11,7 @@ import clsx from "clsx";
  */
 
 type ButtonProps = {
-  type: "button" | "submit" | "reset" | undefined;
+  type?: "button" | "submit" | "reset" | undefined;
   fullWidth?: boolean;
   children?: React.ReactNode;
   onClick?: () => void;
