@@ -17,6 +17,7 @@ export const Avatar: React.FC<AvaterProps> = ({ user }) => {
           alt="Avatar"
           sizes="100%"
           fill
+          className="object-cover object-top"
         />
       </div>
       <span
