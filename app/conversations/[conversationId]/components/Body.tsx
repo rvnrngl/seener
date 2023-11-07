@@ -28,7 +28,7 @@ export const Body: React.FC<BodyProps> = ({ initialMessages }) => {
           data={message}
         />
       ))}
-      <div ref={bottomRef} className="pt-16" />
+      <div ref={bottomRef} className="pt-5" />
     </div>
   );
 };
