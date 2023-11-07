@@ -35,6 +35,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
       .catch(() => toast.error("Something went wrong!"))
       .finally(() => setIsLoading(false));
   }, [conversationId, router, onClose]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="sm:flex sm:items-start">

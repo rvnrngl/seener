@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import { FullConversationType } from "@/app/types";
-import { Conversation, Message, User } from "@prisma/client";
 import { useOtherUser } from "@/app/hooks/useOtherUser";
 import { Avatar } from "@/app/components/Avatar";
+import { AvatarGroup } from "@/app/components/AvatarGroup";
 
 type ConversationBoxProps = {
   data: FullConversationType;
@@ -69,11 +69,15 @@ export const ConversationBox: React.FC<ConversationBoxProps> = ({
       onClick={handleClick}
       className={clsx(
         `relative flex w-full cursor-pointer items-center space-x-3 rounded-lg 
-      bg-white p-3 transition hover:bg-neutral-100`,
-        selected ? "bg-neutral-300/25" : "bg-white",
+      p-3 transition hover:bg-neutral-100`,
+        selected ? "bg-neutral-100" : "bg-white",
       )}
     >
-      <Avatar user={otherUser} />
+      {data.isGroup ? (
+        <AvatarGroup users={data.users} />
+      ) : (
+        <Avatar user={otherUser} />
+      )}
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
           <div className="mb-1 flex items-center justify-between">

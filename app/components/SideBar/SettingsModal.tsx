@@ -68,7 +68,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <h2 className="text-base font-semibold leading-7 text-gray-900">
               Profile
             </h2>
-            <p className="textgray-600 mt-1 text-sm leading-6">
+            <p className="mt-1 text-sm leading-6 text-gray-600">
               Edit your public information
             </p>
 

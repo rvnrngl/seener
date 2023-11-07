@@ -8,47 +8,60 @@ import { useState } from "react";
 
 import { MdOutlineGroupAdd } from "react-icons/md";
 import { ConversationBox } from "./ConversationBox";
+import { GroupChatModal } from "./GroupChatModal";
+import { User } from "@prisma/client";
 
 type ConversationListProps = {
+  users: User[];
   initialItem: FullConversationType[];
 };
 
 export const ConversationList: React.FC<ConversationListProps> = ({
+  users,
   initialItem,
 }) => {
   const router = useRouter();
   const [items, setItems] = useState(initialItem);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { conversationId, isOpen } = useConversation();
 
   return (
-    <aside
-      className={clsx(
-        `fixed inset-y-0 left-0 block w-full overflow-y-auto border-r 
+    <>
+      <GroupChatModal
+        users={users}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      <aside
+        className={clsx(
+          `fixed inset-y-0 left-0 block w-full overflow-y-auto border-r 
       border-gray-200 pb-20 lg:left-20 lg:block lg:w-80 lg:pb-0`,
-        isOpen ? "hidden" : "left-0 block w-full",
-      )}
-    >
-      <div className="px-5">
-        <div className="mb-4 flex items-start justify-between pt-4">
-          <div className="text-2xl font-bold text-neutral-800">Messages</div>
+          isOpen ? "hidden" : "left-0 block w-full",
+        )}
+      >
+        <div className="px-5">
+          <div className="mb-4 flex items-start justify-between pt-4">
+            <div className="text-2xl font-bold text-neutral-800">Messages</div>
 
-          <div
-            className="cursor-pointer rounded-full bg-gray-100 p-2 
+            <div
+              onClick={() => setIsModalOpen(true)}
+              className="cursor-pointer rounded-full bg-gray-100 p-2 
           text-gray-600 transition hover:opacity-75"
-          >
-            <MdOutlineGroupAdd size={20} />
+            >
+              <MdOutlineGroupAdd size={20} />
+            </div>
           </div>
-        </div>
 
-        {items.map((item) => (
-          <ConversationBox
-            key={item.id}
-            data={item}
-            selected={conversationId === item.id}
-          />
-        ))}
-      </div>
-    </aside>
+          {items.map((item) => (
+            <ConversationBox
+              key={item.id}
+              data={item}
+              selected={conversationId === item.id}
+            />
+          ))}
+        </div>
+      </aside>
+    </>
   );
 };
